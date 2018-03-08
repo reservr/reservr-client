@@ -8,7 +8,6 @@ import mainRoutes from "./routes.react";
 class App extends Component {
     render(){
         const routeComponents = mainRoutes.map( route => <Route { ...route } /> );
-
         return (
             <div>
                 <ul>

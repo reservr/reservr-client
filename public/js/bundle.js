@@ -3438,7 +3438,7 @@ var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var reduxStore = (0, _store2.default)();
+var reduxStore = (0, _store2.default)(window.REDUX_INITIAL_DATA);
 
 var rootHtml = _jsx(_reactRedux.Provider, {
     store: reduxStore
@@ -25511,7 +25511,6 @@ var App = function (_Component) {
             var routeComponents = _routes2.default.map(function (route) {
                 return _react2.default.createElement(_reactRouterDom.Route, route);
             });
-
             return _jsx("div", {}, void 0, _ref, _jsx(_reactRouterDom.Switch, {}, void 0, _jsx(_reactRouterDom.Route, {
                 exact: true,
                 path: "/",
@@ -25590,14 +25589,7 @@ var Events = function (_Component) {
         value: function render() {
             var orgs = this.props.orgs;
 
-
-            return _jsx("div", {}, void 0, _ref2, _jsx(_reactRouterDom.Route, {
-                exact: true,
-                path: "/events",
-                render: function render() {
-                    return "choose an organization";
-                }
-            }), _jsx("ol", {}, void 0, orgs.map(function (org) {
+            return _jsx("div", {}, void 0, _ref2, _jsx("ol", {}, void 0, orgs.map(function (org) {
                 return _jsx("li", {}, void 0, _jsx(_reactRouterDom.Link, {
                     to: "/u/" + org.name
                 }, void 0, org.name));
@@ -25607,6 +25599,11 @@ var Events = function (_Component) {
 
     return Events;
 }(_react.Component);
+
+Events.prefetch = function (_ref3) {
+    var params = _ref3.params;
+    return _fetchOrgs();
+};
 
 var mapStateToProps = function mapStateToProps(state) {
     return {
@@ -25623,7 +25620,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     };
 };
 
-function _fetchOrgs(url) {
+function _fetchOrgs() {
     return {
         type: "FETCH_ORGS",
         async: true,
@@ -26197,7 +26194,7 @@ var apiService = function apiService(store) {
     };
 };
 
-function configureStore() {
+function configureStore(initialState) {
     var rootReducer = (0, _redux.combineReducers)({
         orgs: function orgs() {
             var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -26212,7 +26209,7 @@ function configureStore() {
         }
     });
 
-    return (0, _redux.createStore)(rootReducer, (0, _redux.applyMiddleware)(apiService, _reduxThunk2.default));
+    return (0, _redux.createStore)(rootReducer, initialState, (0, _redux.applyMiddleware)(apiService, _reduxThunk2.default));
 }
 
 /***/ }),

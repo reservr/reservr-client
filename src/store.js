@@ -40,7 +40,7 @@ const apiService = ( store ) => ( next ) => ( action ) => {
         );
 };
 
-export default function configureStore() {
+export default function configureStore( initialState ) {
     const rootReducer = combineReducers( {
         orgs: ( state = [], action ) => {
             switch ( action.type ) {
@@ -52,5 +52,5 @@ export default function configureStore() {
         }
     } );
 
-    return createStore( rootReducer, applyMiddleware( apiService, thunkMiddleware ));
+    return createStore( rootReducer, initialState, applyMiddleware( apiService, thunkMiddleware ));
 }

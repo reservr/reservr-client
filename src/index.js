@@ -6,7 +6,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import App from "./app";
 import configureStore from "./store";
 
-const reduxStore = configureStore();
+const reduxStore = configureStore( window.REDUX_INITIAL_DATA );
 
 const rootHtml = (
     <ReduxProvider store={ reduxStore }>

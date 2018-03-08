@@ -16,12 +16,9 @@ class Events extends Component {
 
     render() {
         const { orgs } = this.props;
-
         return (
             <div>
                 <h1>These are all the orgs</h1>
-                <Route exact path="/events" render={ () => "choose an organization" }></Route>
-
                 <ol>
                     { orgs.map( org => ( <li><Link to={ `/u/${ org.name }` } >{ org.name }</Link></li> ) ) }
                 </ol>
@@ -29,6 +26,8 @@ class Events extends Component {
         );
     }
 }
+
+Events.prefetch = ( { params } ) => fetchOrgs()
 
 const mapStateToProps = ( state ) => ( {
     counter: state.counter,
@@ -39,7 +38,7 @@ const mapDispatchToProps = ( dispatch ) => ( {
     fetchOrgs: ( ...args ) => dispatch( fetchOrgs( ...args ) )
 } );
 
-function fetchOrgs( url ) {
+function fetchOrgs() {
     return {
         type: "FETCH_ORGS",
         async: true,
