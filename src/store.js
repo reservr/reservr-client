@@ -49,6 +49,14 @@ export default function configureStore( initialState ) {
                 default:
                     return state;
             }
+        },
+        events: ( state = [], action ) => {
+            switch ( action.type ) {
+                case "FETCH_EVENTS_COMPLETED":
+                    return action.payload.events;
+                default:
+                    return state;
+            }
         }
     } );
 

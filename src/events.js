@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
-import isomorphicFetch from "isomorphic-fetch";
 import { connect } from "react-redux";
 
 class Events extends Component {
@@ -30,7 +29,6 @@ class Events extends Component {
 Events.prefetch = ( { params } ) => fetchOrgs()
 
 const mapStateToProps = ( state ) => ( {
-    counter: state.counter,
     orgs: state.orgs
 } );
 
