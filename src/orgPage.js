@@ -14,9 +14,9 @@ class OrgPage extends Component {
                     { this.props.events.map( event => ( <li><Link to={ `/u/AnimaArt/${ event.slug }` } >{ event.name }</Link></li> ) ) }
                 </ul>
             </div>
-        )
+        );
     }
-};
+}
 
 OrgPage.prefetch = ( { params } ) => fetchEvents( params.orgId.toLowerCase() );
 
@@ -33,9 +33,9 @@ function fetchEvents( id ) {
         type: "FETCH_EVENTS",
         async: true,
         payload: {
-            path: "/events/" + id,
+            path: `/events/${ id }`
         }
-    }
+    };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( OrgPage );

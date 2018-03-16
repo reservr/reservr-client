@@ -3428,9 +3428,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _ref = _jsx("li", {}, void 0, "loading...");
+var _ref = _jsx("h1", {}, void 0, "These are all the orgs");
 
-var _ref2 = _jsx("h1", {}, void 0, "These are all the orgs");
+var _ref2 = _jsx("li", {}, void 0, "loading...");
 
 var Events = function (_Component) {
     _inherits(Events, _Component);
@@ -3438,12 +3438,7 @@ var Events = function (_Component) {
     function Events() {
         _classCallCheck(this, Events);
 
-        var _this = _possibleConstructorReturn(this, (Events.__proto__ || Object.getPrototypeOf(Events)).call(this));
-
-        _this.state = {
-            organisations: [_ref]
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (Events.__proto__ || Object.getPrototypeOf(Events)).apply(this, arguments));
     }
 
     _createClass(Events, [{
@@ -3456,19 +3451,18 @@ var Events = function (_Component) {
         value: function render() {
             var orgs = this.props.orgs;
 
-            return _jsx("div", {}, void 0, _ref2, _jsx("ol", {}, void 0, orgs.map(function (org) {
+            return _jsx("div", {}, void 0, _ref, _jsx("ol", {}, void 0, orgs.length ? orgs.map(function (org) {
                 return _jsx("li", {}, void 0, _jsx(_reactRouterDom.Link, {
                     to: "/u/" + org.name
                 }, void 0, org.name));
-            })));
+            }) : _ref2));
         }
     }]);
 
     return Events;
 }(_react.Component);
 
-Events.prefetch = function (_ref3) {
-    var params = _ref3.params;
+Events.prefetch = function () {
     return _fetchOrgs();
 };
 
@@ -3556,8 +3550,6 @@ var OrgPage = function (_Component) {
 
     return OrgPage;
 }(_react.Component);
-
-;
 
 OrgPage.prefetch = function (_ref) {
     var params = _ref.params;
@@ -25653,14 +25645,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(12);
 
-var _events = __webpack_require__(49);
-
-var _events2 = _interopRequireDefault(_events);
-
-var _orgPage = __webpack_require__(50);
-
-var _orgPage2 = _interopRequireDefault(_orgPage);
-
 var _routes = __webpack_require__(114);
 
 var _routes2 = _interopRequireDefault(_routes);
@@ -25687,6 +25671,11 @@ var App = function (_Component) {
     }
 
     _createClass(App, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            console.log(this);
+        }
+    }, {
         key: "render",
         value: function render() {
             var routeComponents = _routes2.default.map(function (route) {
@@ -25764,48 +25753,49 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var apiService = function apiService(store) {
-    return function (next) {
-        return function (action) {
-            var result = next(action);
+var apiService = function apiService() {
+    return (/* store */function (next) {
+            return function (action) {
+                var result = next(action);
 
-            if (!action.async) {
-                return result;
-            }
+                if (!action.async) {
+                    return result;
+                }
 
-            var baseUrl = "http://localhost:8080";
-            var _action$payload = action.payload,
-                _action$payload$metho = _action$payload.method,
-                method = _action$payload$metho === undefined ? "GET" : _action$payload$metho,
-                path = _action$payload.path;
+                var baseUrl = "http://localhost:8080";
+                var _action$payload = action.payload,
+                    _action$payload$metho = _action$payload.method,
+                    method = _action$payload$metho === undefined ? "GET" : _action$payload$metho,
+                    path = _action$payload.path;
 
 
-            var url = "" + baseUrl + path;
-            var options = {
-                method: method
+                var url = "" + baseUrl + path;
+                var options = {
+                    method: method
+                };
+
+                return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
+                    return res.json();
+                }).then(function (res) {
+                    next({
+                        type: action.type + "_COMPLETED",
+                        async: true,
+                        payload: res
+                    });
+
+                    return res;
+                }, function (err) {
+                    next({
+                        type: action.type + "_FAILED",
+                        async: true,
+                        payload: err
+                    });
+
+                    return Promise.reject(err);
+                });
             };
-
-            return (0, _isomorphicFetch2.default)(url, options).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                next({
-                    type: action.type + "_COMPLETED",
-                    async: true,
-                    payload: res
-                });
-
-                return res;
-            }, function (err) {
-                next({
-                    type: action.type + "_FAILED",
-                    async: true,
-                    payload: err
-                });
-
-                return Promise.reject(err);
-            });
-        };
-    };
+        }
+    );
 };
 
 function configureStore(initialState) {

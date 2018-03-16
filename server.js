@@ -2,30 +2,28 @@ import express from "express";
 import path from "path";
 import React from "react";
 import url from "url";
-import { matchPath } from "react-router-dom";
 import favicon from "serve-favicon";
 
 import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter, matchPath } from "react-router-dom";
 import { Provider as ReduxProvider } from "react-redux";
 
-
-import App from "./src/app.js"
+import App from "./src/app.js";
 import mainRoutes from "./src/routes.react";
 import configureStore from "./src/store";
 
 const PORT = 8081;
 const app = express( );
 
-app.use( express.static( __dirname + "/public" ) );
-app.use( favicon( path.join( __dirname, "public/images", "favicon.ico") ) );
+app.use( express.static( `${ __dirname }/public` ) );
+app.use( favicon( path.join( __dirname, "public/images", "favicon.ico" ) ) );
 
 app.get( "/*", ( req, res ) => {
     const reduxStore = configureStore();
 
     const location = url.parse( req.url );
     const firstMatch = mainRoutes.map( route => ( { route, match: matchPath( location.pathname, route ) } ) )
-                            .filter( ( { match } ) => match )[ 0 ];
+        .filter( ( { match } ) => match )[ 0 ];
 
     const { route, match } = firstMatch;
 
@@ -64,9 +62,9 @@ app.get( "/*", ( req, res ) => {
         </body>
         </html>` );
     } ).catch( ( error ) => {
-        console.log("\n\n\n ------------error:");
-        console.log(error);
-        console.log("\n\n\n");
+        console.log( "\n\n\n ------------error:" );
+        console.log( error );
+        console.log( "\n\n\n" );
     } );
 } );
 

@@ -12,6 +12,6 @@ const mainRoutes = [
         component: OrgPage,
         exact: true
     }
-]
+];
 
 export default mainRoutes;

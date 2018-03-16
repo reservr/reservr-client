@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import isomorphicFetch from "isomorphic-fetch";
 
-const apiService = ( store ) => ( next ) => ( action ) => {
+const apiService = ( /* store */ ) => ( next ) => ( action ) => {
     const result = next( action );
 
     if ( !action.async ) {
@@ -60,5 +60,5 @@ export default function configureStore( initialState ) {
         }
     } );
 
-    return createStore( rootReducer, initialState, applyMiddleware( apiService, thunkMiddleware ));
+    return createStore( rootReducer, initialState, applyMiddleware( apiService, thunkMiddleware ) );
 }

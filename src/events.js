@@ -3,12 +3,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 class Events extends Component {
-    constructor() {
-        super();
-        this.state = {
-            organisations: [ ( <li>loading...</li> ) ]
-        }
-    }
     componentDidMount() {
         this.props.fetchOrgs();
     }
@@ -19,14 +13,14 @@ class Events extends Component {
             <div>
                 <h1>These are all the orgs</h1>
                 <ol>
-                    { orgs.map( org => ( <li><Link to={ `/u/${ org.name }` } >{ org.name }</Link></li> ) ) }
+                    { orgs.length ? orgs.map( org => ( <li><Link to={ `/u/${ org.name }` } >{ org.name }</Link></li> ) ) : ( <li>loading...</li> ) }
                 </ol>
             </div>
         );
     }
 }
 
-Events.prefetch = ( { params } ) => fetchOrgs()
+Events.prefetch = () => fetchOrgs();
 
 const mapStateToProps = ( state ) => ( {
     orgs: state.orgs
@@ -41,9 +35,9 @@ function fetchOrgs() {
         type: "FETCH_ORGS",
         async: true,
         payload: {
-            path: "/orgs",
+            path: "/orgs"
         }
-    }
+    };
 }
 
 export default connect( mapStateToProps, mapDispatchToProps )( Events );
