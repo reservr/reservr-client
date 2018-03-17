@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import mainRoutes from "./routes.react";
 
@@ -11,12 +11,8 @@ class App extends Component {
     render() {
         const routeComponents = mainRoutes.map( route => <Route { ...route } /> );
         return (
-            <div>
-                <ul>
-                    <li><Link to="/events">Events</Link></li>
-                </ul>
+            <div className="container">
                 <Switch>
-                    <Route exact path="/" render={ () => "homepages" } />
                     { routeComponents }
                 </Switch>
             </div>

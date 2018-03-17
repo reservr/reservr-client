@@ -52,7 +52,7 @@ app.get( "/*", ( req, res ) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>Document</title>
-            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
             <link rel="stylesheet" href="/css/main.bundle.css" />
         </head>
         <body>

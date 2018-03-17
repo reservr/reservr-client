@@ -1,18 +1,24 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
+import EventCard from "./event-card.react";
 
 class OrgPage extends Component {
     componentDidMount() {
         this.props.fetchEvents( this.props.match.params.orgId );
     }
     render() {
+        const { events } = this.props;
+        const { orgId } = this.props.match.params;
+
         return (
-            <div>
-                <h1>{ this.props.match.params.orgId }</h1>
-                <ul>
-                    { this.props.events.map( event => ( <li><Link to={ `/u/AnimaArt/${ event.slug }` } >{ event.name }</Link></li> ) ) }
-                </ul>
+            <div className="rsv-org-page">
+                <div className="rsv-org-logo">
+                    <img src="/images/lanima1-white-01.svg" alt="" />
+                </div>
+                <div className="rsv-cards">
+                    { events.map( event => ( <EventCard event={ event } orgId={ orgId } /> ) ) }
+                </div>
             </div>
         );
     }
