@@ -5,6 +5,7 @@ import { Provider as ReduxProvider } from "react-redux";
 
 import App from "./app";
 import configureStore from "./store";
+import "./entry.scss";
 
 const reduxStore = configureStore( window.REDUX_INITIAL_DATA );
 
