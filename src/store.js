@@ -10,11 +10,12 @@ const apiService = ( /* store */ ) => ( next ) => ( action ) => {
     }
 
     const baseUrl = "http://localhost:8080";
-    const { method = "GET", path } = action.payload;
+    const { method = "GET", body, path } = action.payload;
 
     const url = `${ baseUrl }${ path }`;
     const options = {
-        method
+        method,
+        body: JSON.stringify( body )
     };
 
     return isomorphicFetch( url, options )
